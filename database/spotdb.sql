@@ -31,7 +31,7 @@ CREATE TABLE `gurutabi_genre` (
   KEY `oreore_genre_id` (`oreore_genre_id`),
   CONSTRAINT `gurutabi_genre_ibfk_1` FOREIGN KEY (`gurutabi_genre_id`) REFERENCES `gurutabi_genre_small` (`gurutabi_genre_id`),
   CONSTRAINT `gurutabi_genre_ibfk_2` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE `gurutabi_genre_small` (
   `genre_small` varchar(128) DEFAULT NULL,
   `genre_middle` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`gurutabi_genre_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,7 +84,7 @@ CREATE TABLE `jaran_genre` (
   CONSTRAINT `jaran_genre_ibfk_1` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`),
   CONSTRAINT `jaran_genre_ibfk_2` FOREIGN KEY (`jaran_genre_id`) REFERENCES `jaran_genre_small` (`jaran_genre_id`),
   CONSTRAINT `jaran_genre_ibfk_3` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `jaran_genre_small` (
   `genre_small` varchar(128) DEFAULT NULL,
   `genre_large` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`jaran_genre_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `oreore_genre` (
   `genre_id` int(11) NOT NULL,
   `genre_name` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`genre_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +162,7 @@ CREATE TABLE `spot` (
   PRIMARY KEY (`id`),
   KEY `genre_id` (`genre_id`),
   CONSTRAINT `spot_ibfk_1` FOREIGN KEY (`genre_id`) REFERENCES `oreore_genre` (`genre_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
