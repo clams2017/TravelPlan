@@ -2,19 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import GurutabiSpot
 from time import sleep
 from bs4 import BeautifulSoup
+
+from GurutabiSpot import GurutabiSpot
+from Storer import Storer
 
 
 def main():
     targets = read_targets()
-    results = []
-    for target in targets:
-        spots = crawl(target)
-        for spot in spots:
-            results.append(spot)
-    # insert to DB
+    with Storer() as storer:
+        results = []
+        for target in targets:
+            results.extend(crawl(target, storer))
+        # insert to DB
+        storer.store(results)
 
 
 def read_targets():
@@ -26,16 +28,18 @@ def read_targets():
     return urls
 
 
-def crawl(url):
+def crawl(url, storer):
     print("fetch list: " + url)
     urls = fetch_urls(url)
     spots = []
     for url in urls:
         print("fetch spot: https:" + url)
-        gurutabi_spot = fetch_spot(url)
+        spot = fetch_spot(url)
         # detect genre
-        ## genre_id = detect(spot)
-        spots.append(gurutabi_spot.convert())
+        ids = storer.map_oreoere_and_sites(spot.genre_small, Storer.GURUTABI)
+        for id in ids:
+            spots.append(spot.convert(id))
+        break
     return spots
 
 
@@ -65,8 +69,8 @@ def fetch_spot(url):
     genre_middle = extract_genre(bs, "gm")
     image = extract_image(bs)
     access_text = extract_access_text(bs)
-    return GurutabiSpot.GurutabiSpot(name, description, latitude, longitude, genre_small, genre_middle, image,
-                                     access_text)
+    return GurutabiSpot(name, description, genre_small, genre_middle, \
+                        longitude, latitude, image, access_text)
 
 
 def extract_name(bs):

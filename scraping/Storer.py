@@ -66,7 +66,8 @@ class Storer(object):
         cur.close()
 
     def store(self, spots):
-        map(self.insert_spot, spots)
+        for spot in spots:
+            self.insert_spot(spot)
 
     # [TODO] genre_middle (genre_large) をキーにできるようにする
     def map_oreoere_and_sites(self, genre_small, site_name):

@@ -12,11 +12,11 @@ class GurutabiSpot(object):
         self.image = image
         self.access_text = access_text
 
-    def convert(self):
+    def convert(self, oreore_genre_id):
         return OreoreSpot.OreoreSpot(
             self.name,
             self.description,
-            self.genre_small,
+            oreore_genre_id,
             self.lon,
             self.lat,
             self.image,
