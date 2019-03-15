@@ -68,6 +68,7 @@ class Storer(object):
     def store(self, spots):
         map(self.insert_spot, spots)
 
+    # [TODO] genre_middle (genre_large) をキーにできるようにする
     def map_oreoere_and_sites(self, genre_small, site_name):
         cur = self.conn.cursor()
         # [TODO] テーブル名に引数そのまま入れるのはヤバい
@@ -77,4 +78,8 @@ class Storer(object):
         cur.execute(q, (genre_small, ))
         ore_itr = cur.fetchall()
         cur.close()
-        return [x[0] for x in ore_itr]
+        return sorted([x[0] for x in ore_itr])
+
+    # [TODO] validationメソッドを作成
+    def validate(self, spot):
+        pass
