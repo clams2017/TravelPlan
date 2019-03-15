@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import configparser
 import requests
 from time import sleep
 from bs4 import BeautifulSoup
@@ -9,68 +10,70 @@ from GurutabiSpot import GurutabiSpot
 from Storer import Storer
 
 
+_config = configparser.ConfigParser()
+_config.read('development.cfg')
+URL_LIST = _config['Crawler']['url_list']
+
+
 def main():
-    targets = read_targets()
+    targets = read_targets(URL_LIST)
     with Storer() as storer:
-        results = []
         for target in targets:
-            results.extend(crawl(target, storer))
-        # insert to DB
-        storer.store(results)
+            results = crawl(target, storer)
+            storer.store(results)
 
 
-def read_targets():
-    files = open('gurutabi_urls', 'r')
-    urls = []
-    for line in files:
-        urls.append(line)
-    files.close()
+def read_targets(path):
+    with open(path, 'r') as f:
+        urls = []
+        for line in f:
+            urls.append(line.strip())
     return urls
 
 
 def crawl(url, storer):
-    print("fetch list: " + url)
+    print('fetch list: ' + url)
     urls = fetch_urls(url)
     spots = []
     for url in urls:
-        print("fetch spot: https:" + url)
+        print('fetch spot: https:' + url)
         spot = fetch_spot(url)
         # detect genre
         ids = storer.map_oreoere_and_sites(spot.genre_small, Storer.GURUTABI)
         for id in ids:
             spots.append(spot.convert(id))
-        break
     return spots
 
 
 def fetch_urls(url):
-    # for
+    # for safe usage in roop
     sleep(1)
-    r = requests.get(url)
-    r.encoding = r.apparent_encoding
-    bs = BeautifulSoup(r.text, 'html.parser')
+    bs = parse_html(url)
     items = bs.find('ul', class_='list-group-main-list').findAll('li')
-    urls = []
-    for item in items:
-        urls.append(item.find('a').get("href"))
-    return urls
+    return [item.find('a').get('href') for item in items]
 
 
 def fetch_spot(url):
+    # for safe usage in roop
     sleep(1)
-    r = requests.get("https:" + url)
-    r.encoding = r.apparent_encoding
-    bs = BeautifulSoup(r.text, 'html.parser')
+    bs = parse_html('https:' + url)
     name = extract_name(bs)
     description = extract_description(bs)
     latitude = extract_latitude(bs)
     longitude = extract_longitude(bs)
-    genre_small = extract_genre(bs, "gs")
-    genre_middle = extract_genre(bs, "gm")
+    genre_small = extract_genre(bs, 'gs')
+    genre_middle = extract_genre(bs, 'gm')
     image = extract_image(bs)
     access_text = extract_access_text(bs)
     return GurutabiSpot(name, description, genre_small, genre_middle, \
                         longitude, latitude, image, access_text)
+
+
+def parse_html(url):
+    r = requests.get(url)
+    r.encoding = r.apparent_encoding
+    bs = BeautifulSoup(r.text, 'html.parser')
+    return bs
 
 
 def extract_name(bs):
@@ -82,16 +85,18 @@ def extract_description(bs):
     for mt40 in mt40s:
         sections = mt40.findAll('h2', class_='item-section-heading')
         for section in sections:
-            if section.string == '概要':
+            if section.string == u'概要':
                 return mt40.find('p').string
 
 
 def extract_latitude(bs):
-    return bs.find('div', class_='access-map mt40').find('input', id='latitudeValue').get('value')
+    return bs.find('div', class_='access-map mt40')\
+             .find('input', id='latitudeValue').get('value')
 
 
 def extract_longitude(bs):
-    return bs.find('div', class_='access-map mt40').find('input', id='longitudeValue').get('value')
+    return bs.find('div', class_='access-map mt40')\
+             .find('input', id='longitudeValue').get('value')
 
 
 def extract_genre(bs, type_):
@@ -109,7 +114,7 @@ def extract_genre(bs, type_):
 def extract_image(bs):
     bxslider = bs.find('ul', class_='bxslider')
     if not bxslider:
-        return ""
+        return ''
     return bxslider.find('img').get('src')
 
 
