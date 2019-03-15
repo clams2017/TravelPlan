@@ -86,7 +86,8 @@ def extract_description(bs):
         sections = mt40.findAll('h2', class_='item-section-heading')
         for section in sections:
             if section.string == u'概要':
-                return mt40.find('p').string
+                list_ = mt40.find('p').strings
+                return '\n'.join(list_)
 
 
 def extract_latitude(bs):
@@ -121,10 +122,16 @@ def extract_image(bs):
 def extract_access_text(bs):
     access = bs.find('div', class_='access-map mt40')
     access_text = access.find('p', class_='access-map__txt')
-    access_array = []
-    for access_string in access_text.strings:
-        access_array.append(access_string.strip())
-    return '\n'.join(access_array).strip()
+    access_list = strip_generator(access_text)
+    return '\n'.join(access_list).strip()
+
+
+def strip_generator(generator):
+    list_ = []
+    for v in generator:
+        if isinstance(v, str):
+            list_.append(v.strip())
+    return list_
 
 
 if __name__ == '__main__':
