@@ -12,7 +12,7 @@ from Storer import Storer
 
 _config = configparser.ConfigParser()
 _config.read('development.cfg')
-URL_LIST = _config['Crawler']['url_list']
+URL_LIST = _config['Crawler']['gurutabi_url_list']
 
 
 def main():
