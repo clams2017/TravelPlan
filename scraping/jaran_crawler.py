@@ -42,7 +42,6 @@ def crawl(url, storer):
         ids = storer.map_oreoere_and_sites(spot.genre_small, Storer.JARAN)
         for id in ids:
             spots.append(spot.convert(id))
-        break
     return spots
 
 
