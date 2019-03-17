@@ -24,7 +24,7 @@ class Storer(object):
         storer.close()
     '''
 
-    JARAN = 'jaran'
+    JARAN = 'jalan'
     GURUTABI = 'gurutabi'
 
     def __init__(self, account=_ACCOUNT):

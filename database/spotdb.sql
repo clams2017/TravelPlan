@@ -68,56 +68,56 @@ LOCK TABLES `gurutabi_genre_small` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `jaran_genre`
+-- Table structure for table `jalan_genre`
 --
 
-DROP TABLE IF EXISTS `jaran_genre`;
+DROP TABLE IF EXISTS `jalan_genre`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jaran_genre` (
+CREATE TABLE `jalan_genre` (
   `id` int(11) NOT NULL,
-  `jaran_genre_id` int(11) DEFAULT NULL,
+  `jalan_genre_id` int(11) DEFAULT NULL,
   `oreore_genre_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `jaran_genre_id` (`jaran_genre_id`),
+  KEY `jalan_genre_id` (`jalan_genre_id`),
   KEY `oreore_genre_id` (`oreore_genre_id`),
-  CONSTRAINT `jaran_genre_ibfk_1` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`),
-  CONSTRAINT `jaran_genre_ibfk_2` FOREIGN KEY (`jaran_genre_id`) REFERENCES `jaran_genre_small` (`jaran_genre_id`),
-  CONSTRAINT `jaran_genre_ibfk_3` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`)
+  CONSTRAINT `jalan_genre_ibfk_1` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`),
+  CONSTRAINT `jalan_genre_ibfk_2` FOREIGN KEY (`jalan_genre_id`) REFERENCES `jalan_genre_small` (`jalan_genre_id`),
+  CONSTRAINT `jalan_genre_ibfk_3` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `jaran_genre`
+-- Dumping data for table `jalan_genre`
 --
 
-LOCK TABLES `jaran_genre` WRITE;
-/*!40000 ALTER TABLE `jaran_genre` DISABLE KEYS */;
-/*!40000 ALTER TABLE `jaran_genre` ENABLE KEYS */;
+LOCK TABLES `jalan_genre` WRITE;
+/*!40000 ALTER TABLE `jalan_genre` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jalan_genre` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `jaran_genre_small`
+-- Table structure for table `jalan_genre_small`
 --
 
-DROP TABLE IF EXISTS `jaran_genre_small`;
+DROP TABLE IF EXISTS `jalan_genre_small`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jaran_genre_small` (
-  `jaran_genre_id` int(11) NOT NULL,
+CREATE TABLE `jalan_genre_small` (
+  `jalan_genre_id` int(11) NOT NULL,
   `genre_small` varchar(128) DEFAULT NULL,
   `genre_large` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`jaran_genre_id`)
+  PRIMARY KEY (`jalan_genre_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `jaran_genre_small`
+-- Dumping data for table `jalan_genre_small`
 --
 
-LOCK TABLES `jaran_genre_small` WRITE;
-/*!40000 ALTER TABLE `jaran_genre_small` DISABLE KEYS */;
-/*!40000 ALTER TABLE `jaran_genre_small` ENABLE KEYS */;
+LOCK TABLES `jalan_genre_small` WRITE;
+/*!40000 ALTER TABLE `jalan_genre_small` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jalan_genre_small` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

@@ -1,7 +1,7 @@
 import OreoreSpot
 
 
-class JaranSpot(object):
+class JalanSpot(object):
     def __init__(self, name, description, genre_small, genre_middle, lon, lat, image, access_text):
         self.name = name
         self.description = description

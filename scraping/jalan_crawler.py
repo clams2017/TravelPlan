@@ -6,13 +6,13 @@ import requests
 from time import sleep
 from bs4 import BeautifulSoup
 
-from JaranSpot import JaranSpot
+from JalanSpot import JalanSpot
 from Storer import Storer
 
 
 _config = configparser.ConfigParser()
 _config.read('development.cfg')
-URL_LIST = _config['Crawler']['jaran_url_list']
+URL_LIST = _config['Crawler']['jalan_url_list']
 
 
 def main():
@@ -65,7 +65,7 @@ def fetch_spot(url):
     genre_small = extract_genre_small(bs)
     image = extract_image(bs)
     access_text = extract_access_text(bs)
-    return JaranSpot(name, description, genre_small, genre_middle, \
+    return JalanSpot(name, description, genre_small, genre_middle, \
                         longitude, latitude, image, access_text)
 
 
