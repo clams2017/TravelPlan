@@ -39,7 +39,7 @@ def crawl(url, storer):
         print('fetch spot: http:' + url)
         spot = fetch_spot(url)
         # detect genre
-        ids = storer.map_oreoere_and_sites(spot.genre_small, Storer.JARAN)
+        ids = storer.map_oreoere_and_sites(spot.genre_small, Storer.JALAN)
         for id in ids:
             spots.append(spot.convert(id))
     return spots
