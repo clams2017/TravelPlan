@@ -2,8 +2,8 @@
 from bs4 import BeautifulSoup
 from time import sleep
 
-from Crawler import Crawler
-from Storer import Storer
+from module.Crawler import Crawler
+from module.Storer import Storer
 
 
 class JalanCrawler(Crawler):

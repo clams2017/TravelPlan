@@ -4,8 +4,8 @@
 import argparse
 import configparser
 
-from Spot import Spot
-from Storer import Storer
+from module.Spot import Spot
+from module.Storer import Storer
 
 
 JALAN = 'jalan'
@@ -17,11 +17,11 @@ def main():
     cfg = parse_cfg()
 
     if args.site == JALAN:
-        from JalanCrawler import JalanCrawler
+        from module.JalanCrawler import JalanCrawler
         crawler = JalanCrawler()
         path = cfg['jalan_url_list']
     elif args.site == GURUTABI:
-        from GurutabiCrawler import GurutabiCrawler
+        from module.GurutabiCrawler import GurutabiCrawler
         crawler = GurutabiCrawler()
         path = cfg['gurutabi_url_list']
 

@@ -4,7 +4,7 @@
 import configparser
 import mysql.connector
 
-from Spot import Spot
+from module.Spot import Spot
 
 
 _config = configparser.ConfigParser()

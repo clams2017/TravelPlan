@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 from copy import copy
 from time import sleep
 
-from Spot import Spot
-from Storer import Storer
+from module.Spot import Spot
+from module.Storer import Storer
 
 
 class Crawler(object):

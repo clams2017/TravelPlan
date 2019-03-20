@@ -2,8 +2,8 @@
 from bs4 import BeautifulSoup
 from time import sleep
 
-from Crawler import Crawler
-from Storer import Storer
+from module.Crawler import Crawler
+from module.Storer import Storer
 
 
 class GurutabiCrawler(Crawler):
@@ -11,7 +11,6 @@ class GurutabiCrawler(Crawler):
     def __init__(self):
         super().__init__()
 
-    # [TODO] スポット検索結果の2ページ目以降も探索する
     def navigate_search_result(self, url):
         bs = super().parse_url(url)
         items = bs.find('ul', class_='list-group-main-list').findAll('li')
