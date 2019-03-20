@@ -79,7 +79,6 @@ class Storer(object):
     def map_oreoere_and_gurutabi(self, genre_small):
         return self.__map_oreoere_and_sites(genre_small, Storer.GURUTABI)
 
-    # [TODO] genre_middle (genre_large) をキーにできるようにする
     def __map_oreoere_and_sites(self, genre_small, site_name):
         cur = self.conn.cursor()
         q = 'SELECT {0}_genre.oreore_genre_id \
@@ -89,7 +88,3 @@ class Storer(object):
         itr = cur.fetchall()
         cur.close()
         return sorted([x[0] for x in itr])
-
-    # [TODO] validationメソッドを作成
-    def validate(self, spot):
-        pass
