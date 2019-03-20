@@ -153,7 +153,7 @@ DROP TABLE IF EXISTS `spot`;
 CREATE TABLE `spot` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
-  `description` varchar(128) NOT NULL,
+  `description` varchar(1024) NOT NULL,
   `genre_id` int(11) NOT NULL,
   `lon` float NOT NULL,
   `lat` float NOT NULL,

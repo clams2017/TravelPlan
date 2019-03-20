@@ -3,7 +3,7 @@ class Spot(object):
             name, description, oreore_genre_id=[], sites_genre_name, \
             lon, lat, image, access_text):
         self.name = name[:128]
-        self.description = description[:128]
+        self.description = description[:1024]
         self.oreore_genre_id = oreore_genre_id
         self.sites_genre_name = sites_genre_name
         self.lon = lon
