@@ -4,11 +4,13 @@
 import configparser
 import mysql.connector
 
-from OreoreSpot import OreoreSpot
+from Spot import Spot
+
 
 _config = configparser.ConfigParser()
 _config.read('development.cfg')
 _ACCOUNT = _config['MySQL']
+
 
 class Storer(object):
     '''stores spot metadata into MySQL database.
@@ -53,33 +55,40 @@ class Storer(object):
         q = 'INSERT INTO spot \
              (name, description, genre_id, lon, lat, image, access_text) \
              VALUES (%s, %s, %s, %s, %s, %s, %s)'
-        cur.execute(q, ( \
-            spot.name, \
-            spot.description, \
-            spot.oreore_genre_id, \
-            spot.lon, \
-            spot.lat, \
-            spot.image, \
-            spot.access_text \
-        ))
+        for id in spot.oreore_genre_id:
+            cur.execute(q, ( \
+                spot.name, \
+                spot.description, \
+                id, \
+                spot.lon, \
+                spot.lat, \
+                spot.image, \
+                spot.access_text \
+            ))
         self.conn.commit()
+        print('inserted: %s' % spot)
         cur.close()
 
     def store(self, spots):
         for spot in spots:
             self.insert_spot(spot)
 
+    def map_oreoere_and_jalan(self, genre_small):
+        return self.__map_oreoere_and_sites(genre_small, Storer.JALAN)
+
+    def map_oreoere_and_gurutabi(self, genre_small):
+        return self.__map_oreoere_and_sites(genre_small, Storer.GURUTABI)
+
     # [TODO] genre_middle (genre_large) をキーにできるようにする
-    def map_oreoere_and_sites(self, genre_small, site_name):
+    def __map_oreoere_and_sites(self, genre_small, site_name):
         cur = self.conn.cursor()
-        # [TODO] テーブル名に引数そのまま入れるのはヤバい
         q = 'SELECT {0}_genre.oreore_genre_id \
              FROM {0}_genre NATURAL JOIN {0}_genre_small \
              WHERE genre_small=%s'.format(site_name)
         cur.execute(q, (genre_small, ))
-        ore_itr = cur.fetchall()
+        itr = cur.fetchall()
         cur.close()
-        return sorted([x[0] for x in ore_itr])
+        return sorted([x[0] for x in itr])
 
     # [TODO] validationメソッドを作成
     def validate(self, spot):
