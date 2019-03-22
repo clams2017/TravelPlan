@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import requests
 from bs4 import BeautifulSoup
 from time import sleep
 
@@ -11,11 +12,19 @@ class JalanCrawler(Crawler):
     def __init__(self):
         super().__init__()
 
-    # [TODO] スポット検索結果の2ページ目以降も探索する
     def navigate_search_result(self, url):
-        bs = super().parse_url(url)
-        items = bs.findAll('div', class_='item-listContents')
-        return ['https:' + item.findAll('a')[2]['href'] for item in items]
+        # pager5ページ目までを探索対象とする
+        # whileループ内でリクエストを飛ばすのは危険なため
+        urls = []
+        pager = [url] + ['%spage_%d/' % (url, i) for i in range(2, 6)]
+        for page in pager:
+            try:
+                bs = self.parse_url(page)
+                items = bs.findAll('div', class_='item-listContents')
+                urls.extend(['https:' + i.findAll('a')[2]['href'] for i in items])
+            except requests.exceptions.HTTPError as e:
+                break
+        return urls
 
     def detect_genre(self, genre):
         return self.storer.map_oreoere_and_jalan(genre)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import requests
 from bs4 import BeautifulSoup
 from time import sleep
 
@@ -12,9 +13,18 @@ class GurutabiCrawler(Crawler):
         super().__init__()
 
     def navigate_search_result(self, url):
-        bs = super().parse_url(url)
-        items = bs.find('ul', class_='list-group-main-list').findAll('li')
-        return ['https:' + item.find('a').get('href') for item in items]
+        # pager5ページ目までを探索対象とする
+        # whileループ内でリクエストを飛ばすのは危険なため
+        urls = []
+        pager = [url] + ['%spg%d/' % (url, i) for i in range(2, 6)]
+        for page in pager:
+            try:
+                bs = self.parse_url(page)
+                items = bs.find('ul', class_='list-group-main-list').findAll('li')
+                urls.extend(['https:' + i.find('a').get('href') for i in items])
+            except requests.exceptions.HTTPError as e:
+                break
+        return urls
 
     def detect_genre(self, genre):
         return self.storer.map_oreoere_and_gurutabi(genre)
@@ -59,5 +69,5 @@ class GurutabiCrawler(Crawler):
     def extract_access_text(self, bs):
         access = bs.find('div', class_='access-map mt40')
         access_text = access.find('p', class_='access-map__txt')
-        access_list = super().strip_generator(access_text)
+        access_list = self.strip_generator(access_text)
         return '\n'.join(access_list).strip()

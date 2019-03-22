@@ -25,7 +25,7 @@ class Crawler(object):
         spots = []
         for url in urls:
             print('fetch spot: %s' % url)
-            spots.extend(self.fetch_detail(url))
+            spots.append(self.fetch_detail(url))
         return spots
 
     def fetch_detail(self, url_or_file):
@@ -84,8 +84,10 @@ class Crawler(object):
     @staticmethod
     def parse_url(url):
         # for safe usage in loops
-        sleep(5)
+        sleep(30)
         r = requests.get(url)
+        if not r.status_code == requests.codes.ok:
+            r.raise_for_status()
         r.encoding = r.apparent_encoding
         bs = BeautifulSoup(r.text, 'html.parser')
         return bs
