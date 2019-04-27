@@ -84,7 +84,7 @@ class Storer(object):
         q = 'SELECT {0}_genre.oreore_genre_id \
              FROM {0}_genre NATURAL JOIN {0}_genre_small \
              WHERE genre_small=%s'.format(site_name)
-        cur.execute(q, (genre_small, ))
+        cur.execute(q, (str(genre_small), ))
         itr = cur.fetchall()
         cur.close()
         return sorted([x[0] for x in itr])
