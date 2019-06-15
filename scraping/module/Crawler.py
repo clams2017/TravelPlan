@@ -84,7 +84,7 @@ class Crawler(object):
     @staticmethod
     def parse_url(url):
         # for safe usage in loops
-        sleep(30)
+        sleep(5)
         r = requests.get(url)
         if not r.status_code == requests.codes.ok:
             r.raise_for_status()
