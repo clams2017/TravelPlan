@@ -53,8 +53,8 @@ class Storer(object):
     def insert_spot(self, spot):
         cur = self.conn.cursor()
         q = 'INSERT INTO spot \
-             (name, description, genre_id, lon, lat, image, access_text) \
-             VALUES (%s, %s, %s, %s, %s, %s, %s)'
+             (name, description, genre_id, lon, lat, image, access_text, address_code) \
+             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
         for id in spot.oreore_genre_id:
             cur.execute(q, ( \
                 spot.name, \
@@ -63,7 +63,8 @@ class Storer(object):
                 spot.lon, \
                 spot.lat, \
                 spot.image, \
-                spot.access_text \
+                spot.access_text, \
+                spot.address_code \
             ))
         self.conn.commit()
         print('inserted: %s' % spot)
@@ -88,3 +89,18 @@ class Storer(object):
         itr = cur.fetchall()
         cur.close()
         return sorted([x[0] for x in itr])
+
+    def resolve_pref_code(self, address_name):
+        # 頭文字が2文字以上被る件が無いのでバリデーションする
+        if len(address_name) < 2:
+            return
+        cur = self.conn.cursor()
+        q = 'SELECT address.code \
+             FROM address \
+             WHERE address.name LIKE %s'
+        cur.execute(q, (str(address_name)+'%',))
+        itr = cur.fetchall()
+        cur.close()
+        # 都道府県データの性質上1件しかヒットしないため、LIKE検索で最初にヒットしたもののみ返却する
+        pref = itr[0]
+        return pref[0]
