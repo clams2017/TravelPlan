@@ -66,7 +66,6 @@ class Storer(object):
                 spot.access_text \
             ))
         self.conn.commit()
-        print('inserted: %s' % spot)
         cur.close()
 
     def store(self, spots):
@@ -88,3 +87,15 @@ class Storer(object):
         itr = cur.fetchall()
         cur.close()
         return sorted([x[0] for x in itr])
+
+    def find_same_spot(self, spot, oreore_genre_id):
+        cur = self.conn.cursor()
+        q = 'SELECT * FROM spot \
+             WHERE lat BETWEEN %s AND %s \
+               AND lon BETWEEN %s AND %s \
+               AND genre_id=%s'
+        cur.execute(q, (spot.lat - 0.005, spot.lat + 0.005,
+            spot.lon - 0.005, spot.lon + 0.005, oreore_genre_id))
+        r = cur.fetchall()
+        cur.close()
+        return r

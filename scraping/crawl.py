@@ -36,7 +36,19 @@ def main():
         crawler.close()
 
     with Storer() as storer:
-        storer.store(spots)
+        for spot in spots:
+            print('found a spot: %s' % spot)
+            updated_genre = []
+            for genre_id in spot.oreore_genre_id:
+                if storer.find_same_spot(spot, genre_id) is None:
+                    updated_genre.append(genre_id)
+                    print('[name="%s", genre_id=%d] will be inserted.' \
+                        % (spot.name, genre_id))
+                else:
+                    print('[name="%s", genre_id=%d] is already existed.' \
+                        % (spot.name, genre_id))
+            spot.oreore_genre_id = updated_genre
+            storer.insert_spot(spot)
 
 
 def parse_arg():
