@@ -50,15 +50,7 @@ class GurutabiCrawler(Crawler):
                  .find('input', id='longitudeValue').get('value')
 
     def extract_genre(self, bs):
-        breadcrumbs = bs.find('ol', class_='breadcrumb__list').findAll('li')
-        for breadcrumb in breadcrumbs:
-            a = breadcrumb.find('a')
-            if not a:
-                continue
-            url = a.get('href')
-            paths = url.split('/')
-            if paths[-2].startswith('gs'):
-                return a.string
+        return self.__extract_breadcrumb(bs, 'gs')
 
     def extract_image(self, bs):
         bxslider = bs.find('ul', class_='bxslider')
@@ -71,3 +63,17 @@ class GurutabiCrawler(Crawler):
         access_text = access.find('p', class_='access-map__txt')
         access_list = self.strip_generator(access_text)
         return '\n'.join(access_list).strip()
+
+    def extract_address_name(self, bs):
+        return self.__extract_breadcrumb(bs, 'p')
+
+    def __extract_breadcrumb(self, bs, prefix):
+        breadcrumbs = bs.find('ol', class_='breadcrumb__list').findAll('li')
+        for breadcrumb in breadcrumbs:
+            a = breadcrumb.find('a')
+            if not a:
+                continue
+            url = a.get('href')
+            paths = url.split('/')
+            if paths[-2].startswith(prefix):
+                return a.string

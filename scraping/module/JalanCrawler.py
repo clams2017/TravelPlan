@@ -57,3 +57,7 @@ class JalanCrawler(Crawler):
                      .findAll('tr')[-1].find('td').string.strip()
         except AttributeError as e:
             return ''
+
+    def extract_address_name(self, bs):
+        return bs.find('dl', class_='c-area')\
+                .findAll('div', class_='dropdownCurrent')[0].find('a').string
