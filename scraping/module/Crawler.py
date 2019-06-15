@@ -43,9 +43,11 @@ class Crawler(object):
         lon = self.extract_longitude(bs)
         image = self.extract_image(bs)
         access_text = self.extract_access_text(bs)
+        address_name = self.extract_address_name(bs)
+        address_code = self.storer.resolve_pref_code(address_name)
         return Spot(name=name, description=description, \
             sites_genre_name=sites_genre_name, \
-            lon=lon, lat=lat, image=image, access_text=access_text)
+            lon=lon, lat=lat, image=image, access_text=access_text, address_code=address_code)
 
     def detect_genre(self, genre):
         raise NotImplementedError()
@@ -72,6 +74,9 @@ class Crawler(object):
         raise NotImplementedError()
 
     def extract_access_text(self, bs):
+        raise NotImplementedError()
+
+    def extract_address_name(self, bs):
         raise NotImplementedError()
 
     @staticmethod
