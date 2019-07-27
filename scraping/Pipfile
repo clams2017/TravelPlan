@@ -38,6 +38,7 @@ jupyter_client = "==5.2.4"
 jupyter_core = "==4.4.0"
 prompt_toolkit = "==2.0.9"
 Pygments = "==2.3.1"
+pipfile = "*"
 
 [requires]
 python_version = "3.5"

@@ -6,8 +6,8 @@ class Spot(object):
         self.description = description[:1024]
         self.oreore_genre_id = oreore_genre_id
         self.sites_genre_name = sites_genre_name
-        self.lon = lon
-        self.lat = lat
+        self.lon = round(float(lon), 2)
+        self.lat = round(float(lat), 2)
         self.image = image[:256]
         self.access_text = access_text[:256]
         self.address_code = address_code[:11]
