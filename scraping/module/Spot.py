@@ -6,11 +6,17 @@ class Spot(object):
         self.description = description[:1024]
         self.oreore_genre_id = oreore_genre_id
         self.sites_genre_name = sites_genre_name
-        self.lon = round(float(lon), 2)
-        self.lat = round(float(lat), 2)
         self.image = image[:256]
         self.access_text = access_text[:256]
         self.address_code = address_code[:11]
+        try:
+            self.lon = round(float(lon), 2)
+            self.lat = round(float(lat), 2)
+        except:
+            # エラー値を入れておくが、エラーの発生したスポットは全て同一判定される
+            # TODO 緯度経度のないスポットの扱いの検討
+            self.lon = -1
+            self.lat = -1
 
     def __repr__(self):
         return '''
