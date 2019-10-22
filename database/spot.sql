@@ -32,10 +32,11 @@ CREATE TABLE `spot` (
   `image` varchar(256) NOT NULL,
   `access_text` varchar(256) NOT NULL,
   `address_code` varchar(11) DEFAULT NULL,
+  `ref_count` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `genre_id` (`genre_id`),
   CONSTRAINT `spot_ibfk_1` FOREIGN KEY (`genre_id`) REFERENCES `oreore_genre` (`genre_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -47,4 +48,4 @@ CREATE TABLE `spot` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-15 14:27:18
+-- Dump completed on 2019-10-22 15:34:51
