@@ -118,8 +118,10 @@ class Storer(object):
 
     def increment_ref_count(self, spot_id):
         cur = self.conn.cursor()
-        q = 'UPDATE spot SET ref_count = ref_count + 1 WHERE id = %d'
-        cur.execute(q, spot_id)
+        q = 'UPDATE spot SET ref_count = ref_count + 1 WHERE id = %s'
+        cur.execute(q, (spot_id,))
+        qs = 'SELECT * from spot WHERE id = %s'
+        cur.execute(qs, (spot_id,))
         r = cur.fetchall()
         cur.close()
         return r
