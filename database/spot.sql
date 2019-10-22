@@ -32,7 +32,7 @@ CREATE TABLE `spot` (
   `image` varchar(256) NOT NULL,
   `access_text` varchar(256) NOT NULL,
   `address_code` varchar(11) DEFAULT NULL,
-  `ref_count` int(11) DEFAULT '0',
+  `ref_count` int(11) DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `genre_id` (`genre_id`),
   CONSTRAINT `spot_ibfk_1` FOREIGN KEY (`genre_id`) REFERENCES `oreore_genre` (`genre_id`)
