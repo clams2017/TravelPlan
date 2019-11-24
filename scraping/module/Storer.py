@@ -52,7 +52,7 @@ class Storer(object):
 
     def insert_spot(self, spot):
         rowid = self.__insert_to_spot_table(spot)
-        self.__insert_to_oreore_spot_mapping(rowid, spot.genre_id)
+        self.__insert_to_oreore_spot_mapping(rowid, spot.oreore_genre_id)
 
     def __insert_to_spot_table(self, spot):
         cur = self.conn.cursor()
