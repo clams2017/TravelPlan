@@ -159,6 +159,7 @@ CREATE TABLE `spot` (
   `image` varchar(256) NOT NULL,
   `access_text` varchar(256) NOT NULL,
   `address_code` varchar(11) DEFAULT NULL,
+  `ref_count` int(11) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
