@@ -19,7 +19,7 @@
 -- Position to start replication or point-in-time recovery from
 --
 
-CHANGE MASTER TO MASTER_LOG_FILE='binlog.000005', MASTER_LOG_POS=1441;
+-- CHANGE MASTER TO MASTER_LOG_FILE='binlog.000005', MASTER_LOG_POS=1441;
 
 --
 -- Table structure for table `address`
