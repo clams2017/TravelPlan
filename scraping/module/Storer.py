@@ -51,21 +51,35 @@ class Storer(object):
         self.conn.close()
 
     def insert_spot(self, spot):
+        rowid = self.__insert_to_spot_table(spot)
+        self.__insert_to_oreore_spot_mapping(rowid, spot.oreore_genre_id)
+
+    def __insert_to_spot_table(self, spot):
         cur = self.conn.cursor()
         q = 'INSERT INTO spot \
-             (name, description, genre_id, lon, lat, image, access_text, address_code) \
-             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
-        for id in spot.oreore_genre_id:
-            cur.execute(q, ( \
-                spot.name, \
-                spot.description, \
-                id, \
-                spot.lon, \
-                spot.lat, \
-                spot.image, \
-                spot.access_text, \
-                spot.address_code \
-            ))
+             (name, description, lon, lat, image, access_text, address_code) \
+             VALUES (%s, %s, %s, %s, %s, %s, %s)'
+        cur.execute(q, ( \
+            spot.name, \
+            spot.description, \
+            spot.lon, \
+            spot.lat, \
+            spot.image, \
+            spot.access_text, \
+            spot.address_code \
+        ))
+        # spotのINSERT完了時点ではcommitしない
+        # self.conn.commit()
+        rowid = cur.lastrowid
+        cur.close()
+        return rowid
+
+    def __insert_to_oreore_spot_mapping(self, spot_id, genre_id_list):
+        records = [(spot_id, genre_id) for genre_id in genre_id_list]
+        cur = self.conn.cursor()
+        q = 'INSERT INTO oreore_spot_mapping \
+             (spot_id, oreore_genre_id) VALUES (%s, %s)'
+        cur.executemany(q, records)
         self.conn.commit()
         cur.close()
 
@@ -89,14 +103,13 @@ class Storer(object):
         cur.close()
         return sorted([x[0] for x in itr])
 
-    def find_same_spot(self, spot, oreore_genre_id):
+    def find_same_spot(self, spot):
         cur = self.conn.cursor()
         q = 'SELECT * FROM spot \
              WHERE lat BETWEEN %s AND %s \
-               AND lon BETWEEN %s AND %s \
-               AND genre_id=%s'
+               AND lon BETWEEN %s AND %s'
         cur.execute(q, (spot.lat - 0.005, spot.lat + 0.005,
-            spot.lon - 0.005, spot.lon + 0.005, oreore_genre_id))
+            spot.lon - 0.005, spot.lon + 0.005))
         r = cur.fetchall()
         cur.close()
         return r
