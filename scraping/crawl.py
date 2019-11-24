@@ -40,11 +40,13 @@ def main():
             print('found a spot: %s' % spot)
             updated_genre = []
             for genre_id in spot.oreore_genre_id:
-                if not storer.find_same_spot(spot, genre_id):
+                same_spot = storer.find_same_spot(spot, genre_id)
+                if not same_spot:
                     updated_genre.append(genre_id)
                     print('[name="%s", genre_id=%d] will be inserted.' \
                         % (spot.name, genre_id))
                 else:
+                    storer.increment_ref_count(same_spot[0][0])  # same_spot[\d+][0] is spot.id
                     print('[name="%s", genre_id=%d] is already existed.' \
                         % (spot.name, genre_id))
             spot.oreore_genre_id = updated_genre

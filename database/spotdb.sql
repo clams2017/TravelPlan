@@ -154,14 +154,11 @@ CREATE TABLE `spot` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `description` varchar(1024) NOT NULL,
-  `genre_id` int(11) NOT NULL,
   `lon` float NOT NULL,
   `lat` float NOT NULL,
   `image` varchar(256) NOT NULL,
   `access_text` varchar(256) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `genre_id` (`genre_id`),
-  CONSTRAINT `spot_ibfk_1` FOREIGN KEY (`genre_id`) REFERENCES `oreore_genre` (`genre_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -174,6 +171,32 @@ LOCK TABLES `spot` WRITE;
 /*!40000 ALTER TABLE `spot` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Table structure for table `oreore_spot_mapping`
+--
+
+DROP TABLE IF EXISTS `oreore_spot_mapping`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oreore_spot_mapping` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `spot_id` int(11) NOT NULL,
+  `oreore_genre_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `oreore_spot_mapping_ibfk_1` FOREIGN KEY (`spot_id`) REFERENCES `spot` (`id`),
+  CONSTRAINT `oreore_spot_mapping_ibfk_2` FOREIGN KEY (`oreore_genre_id`) REFERENCES `oreore_genre` (`genre_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oreore_spot_mapping`
+--
+
+LOCK TABLES `oreore_spot_mapping` WRITE;
+/*!40000 ALTER TABLE `oreore_spot_mapping` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oreore_spot_mapping` ENABLE KEYS */;
+UNLOCK TABLES;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
